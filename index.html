@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>migrate</title>
+    <script>
+        (function() {
+
+            // JavaScript snippet handling Dark/Light mode switching
+
+            const getStoredTheme = () => localStorage.getItem('theme');
+            const setStoredTheme = theme => localStorage.setItem('theme', theme);
+            const forcedTheme = document.documentElement.getAttribute('data-bss-forced-theme');
+
+            const getPreferredTheme = () => {
+
+                if (forcedTheme) return forcedTheme;
+
+                const storedTheme = getStoredTheme();
+                if (storedTheme) {
+                    return storedTheme;
+                }
+
+                const pageTheme = document.documentElement.getAttribute('data-bs-theme');
+
+                if (pageTheme) {
+                    return pageTheme;
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            const setTheme = theme => {
+                if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-bs-theme', theme);
+                }
+            }
+
+            setTheme(getPreferredTheme());
+
+            const showActiveTheme = (theme, focus = false) => {
+                const themeSwitchers = [].slice.call(document.querySelectorAll('.theme-switcher'));
+
+                if (!themeSwitchers.length) return;
+
+                document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                    element.classList.remove('active');
+                    element.setAttribute('aria-pressed', 'false');
+                });
+
+                for (const themeSwitcher of themeSwitchers) {
+
+                    const btnToActivate = themeSwitcher.querySelector('[data-bs-theme-value="' + theme + '"]');
+
+                    if (btnToActivate) {
+                        btnToActivate.classList.add('active');
+                        btnToActivate.setAttribute('aria-pressed', 'true');
+                    }
+                }
+            }
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                const storedTheme = getStoredTheme();
+                if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme());
+                }
+            });
+
+            window.addEventListener('DOMContentLoaded', () => {
+                showActiveTheme(getPreferredTheme());
+
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const theme = toggle.getAttribute('data-bs-theme-value');
+                            setStoredTheme(theme);
+                            setTheme(theme);
+                            showActiveTheme(theme);
+                        })
+                    })
+            });
+        })();
+    </script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="theme-switcher dropdown"><button class="btn btn-link dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="color: var(--bs-body-color);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-sun-fill mb-1">
+                    <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+                </svg></button>
+            <div class="dropdown-menu"><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="light"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-sun-fill opacity-50 me-2">
+                        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+                    </svg>Light</a><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="dark"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-moon-stars-fill opacity-50 me-2">
+                        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+                        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+                    </svg>Dark</a><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="auto"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-circle-half opacity-50 me-2">
+                        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+                    </svg>Auto</a></div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/000.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Start by logging into the Azure Portal.</p>
+                <p>The client should have a CSP Subscription where the Azure Migration project can be created.&nbsp; However, you can create an Azure Migrate assessment using any working Azure subscription.&nbsp; The portal can be reached in a web browser at portal.azure.com</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/001.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Navigate to Azure Migrate</p>
+                <p>You can find the Azure Migrate section of the portal by typing it into the search box at the top of the screen.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/002.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Select Servers, databases, and web apps</p>
+                <p>Navigate to the Servers, databases, and web apps section on the left-hand blade menu under Migration goals.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/003.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Create a new project</p>
+                <p>On the top of the screen, select the Create project button.&nbsp; If you've already created a project, you'll see a project selection button below.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/004.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Create project details</p>
+                <p>Specify the Subscription and Resource Group where you'd like to keep the Azure Migrate project resource.&nbsp; Note the region where this project is created is determined by the Resource Group.&nbsp; Migration Project resources cannot be moved.</p>
+                <p>Assign a name for your Migrate Project then select your corresponding Geography.</p>
+                <p>Advanced options allows the migration process to utilize Private Endpoints which adds additional layers of security.</p>
+                <p>Select Create.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/005.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Select Discover</p>
+                <p>Once the project is created, two panels will appear on screen: Assessment tools and Migration tools.&nbsp;Select the Discover button under Assessment tools.</p>
+                <p>An Azure Migration Project consists of two major sections:&nbsp; Discovery and Assessment followed by Replication and Migration. While it is advised to perform both activities, they can be performed independently of each other.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/006.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Select Server type</p>
+                <p>Azure Migrate supports options for Hyper-V, VMware, Physical Servers, and other Cloud environments.&nbsp; Select the option that applies to your environment.</p>
+                <p>The screenshots in this document depict installation of the Azure Migrate Appliance into a Hyper-V environment.&nbsp; While some details will change depending on each unique environment, the principle steps are the same.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/008.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Generate a Project Key and Download the Azure Migrate Appliance</p>
+                <p>Generate a Project Key by naming the appliance and selecting the Generate Key button.&nbsp; This process will take roughly 2 minutes. Once the key is generated, copy it to your clipboard.</p>
+                <p>From this screen, you can download the Azure Migrate Appliance.&nbsp; For Hyper-V, a VHD file will be available.&nbsp; An OVA file is available for VMware environments.&nbsp; A third option is a ZIP file available for physical server and other cloud environments.&nbsp; The ZIP option will require creation of a Virtual Machine and procurement of a Windows Server operating system.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/009.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Install the Azure Migrate Appliance on-prem</p>
+                <p>From the Hyper-V Manager, select Import Virtual Machine...</p>
+                <p>In a Hyper-V environment, the Azure Migrate Appliance will right-size itself.&nbsp; You'll be required to select Memory and Storage settings in a VMware envionrment.</p>
+                <p>Cycle through the installation process then launch the Azure Migrate Appliance.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/010.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Appliance Configuration Manager</p>
+                <p>The Azure Migrate Appliance will take a few minutes to launch for the first time.&nbsp; You'll be required to setup a Windows username and password.</p>
+                <p>After a few minutes, a web browser will launch.&nbsp; This is a local web interface called the Appliance Configuration Manager which is used for configuring the Azure Migrate Appliance.</p>
+                <p>Agree to the Terms of use.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/011.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Setup Prerequisites</p>
+                <p>The Appliance will check internet connectivity to Microsoft.</p>
+                <p>Paste the Project Key from the clipboard into the prompt then select the Verify button.&nbsp; After verification, the Appliance Configuration Manager will check for updates.</p>
+                <p>Note: I've occasionally seen the windows.net server become temporarily unavailable which causes the Check connectivity to Azure process to fail.&nbsp; Verify your Virtual Machine has access to the internet.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/012.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Check latest updates...</p>
+                <p>The Appliance Configuration Manager page will reload will spend about 5 minutes checking for updates.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/013.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Check latest updates...</p>
+                <p>After updating, the Appliance Configuration Manager page will reload.&nbsp; You'll need to repeat the process by pasting the Project Key again, select Verify, then wait for the Appliance Configuration Manager to check for updates.&nbsp; After checking for updates, it will allow you to proceed to the next steps below.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/014.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Login to Azure</p>
+                <p>After several minutes, you'll have the option to Login to Azure.</p>
+                <p>Select Login.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/015.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Copy Code &amp; Login</p>
+                <p>Select the Copy code &amp; Login button.&nbsp; This will automatically copy the on-screen code into your clipboard.&nbsp; No need to save it as you will only need it once.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/016.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Paste Code</p>
+                <p>Paste the Device code in the prompt then select Next.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/017.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Sign in to Azure</p>
+                <p>Login to Azure using your username and password.</p>
+                <p>The required RBAC is either Owner or Contributor on the corresponding subscription.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/019.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Close the PowerShell tab</p>
+                <p>The Azure Migrate Appliance Configuration Manager is now signed into Azure.&nbsp; Although the prompt instructs you to close the window, don't.&nbsp; Close the web browser tab. You'll want to return to the Appliance Configuration Manager which is in the first tab.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/020.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Initiating Appliance Registration</p>
+                <p>After signing into Azure PowerShell, the Appliance Configuration Manager will take several minutes to configure the registration.&nbsp; Upon completion, you may proceed to the next steps below.</p>
+                <p>Note:&nbsp; If your username has access into multiple Azure Tenants, make sure you are cached into the correct tenant.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/100.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Manage Credentials and Discovery Sources</p>
+                <p>Scroll down and select the Add Credentials button.&nbsp;This is where you can securely enter login credentials for your Hypervisor servers in the Appliance Configuration Manager.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/101.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Add Credentials</p>
+                <p>The Source Type option will be limited to the Hypervisor option chosen earlier.&nbsp; In this example, the menu is displayed as Hyper-V Host/Cluster and cannot be changed.</p>
+                <p>Enter a Friendly Name which is an internal index to help identify each set of credentials.&nbsp; You can use a name such as "Hostlogin1" or whichever naming convention you like.&nbsp; This option is completely up to you.</p>
+                <p>Enter the username and password.&nbsp; Make sure you don't enter any typos.&nbsp; Then press the Save button.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/102.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Add Credentials Continued</p>
+                <p>You'll see the credentials have been added.&nbsp; Assign more credentials as needed if connecting to multiple Hypervisor servers assigning each set of credentials to a unique Friendly Name.</p>
+                <p>This will work with both domain-joined and local usernames.</p>
+                <p>Note:&nbsp; In case of troubleshooting, check the username and password entries first as I've seen the UI glitch and cut the passwords short on several occasions.&nbsp; Simply re-enter them and verify accuracy if this is the case.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/104.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Add Discovery Source</p>
+                <p>Scroll down and select the Add Discovery Source button under Step 2.&nbsp; This is where the Appliance Configuration Manager lists the IP Addresses or FQDN to connect to local Hypervisor Servers using the stored credentials.</p>
+                <p>This step relies on a number of background services.&nbsp; Ensure these services are running and allowed on the network.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/105.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Add Discovery Source Continued</p>
+                <p>Select Add Single Item on the top-left of the prompt.&nbsp;&nbsp;</p>
+                <p>Enter the local IP Address or FQDN of the Hypervisor Server.</p>
+                <p>Select the corresponding Friendly Name of the Credentials for the Hypervisor Server.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/106.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Validation Successful</p>
+                <p>Check if the Validation was successful. If so, scroll down to the bottom of the Appliance Configuration Manager page.</p>
+                <p>In the event of troubleshooting, first check the usernames and passwords stored in the previous step above.&nbsp; Connectivity between the Azure Migrate Appliance and Hypervisor Server depend on multiple services running and being allowed through the network.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/107.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Start Discovery</p>
+                <p>Scroll down to the bottom of the Appliance Configuration Manager page and select Start Discovery.</p>
+                <p>Note:&nbsp; There are optional steps for performing Software Inventory which won't be covered in this document.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/108.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Starting Discovery</p>
+                <p>The Discovery process will take several minutes depending on the size of the environment.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/109.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Discovery Successfully Initiated</p>
+                <p>When the Discovery process is completed, you may close your connection to the Azure Migrate Appliance virtual machine.&nbsp; Keep this machine running as it will be continuously gathering performance metrics from the Hypervisor environment.</p>
+                <p>Proceed back to the Azure Portal.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/022.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Navigate back to Azure Migrate</p>
+                <p>Navigate back to the Azure Migrate section of the Portal.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/023.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Servers, Databases, and Web Apps</p>
+                <p>Select Servers, Databases, and Web Apps in the blade menu under Migration Goals on the left-hand side.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/024.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Refresh the Project</p>
+                <p>Press the Refresh button near the top of the page.&nbsp; This will take about 12-15 seconds.&nbsp; The number of Discovered Servers should propagate.&nbsp; Now that on-prem Virtual Machine metrics are being sent to the Azure Migrate project, we can create an assessment.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/025.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Create an Assessment</p>
+                <p>To create an Assessment, select Assess at the top of the Assessment Tools panel then select Azure VM.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/026.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Edit Assessment Settings</p>
+                <p>Assessment Type should remain Azure VM.&nbsp; The Discovery Source is Servers discovered from Azure Migrate Appliance.</p>
+                <p>Select the Edit button beside Assessment Settings.&nbsp; In the following section, you can adjust all the parameters of your assessment.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/027.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Assessment Settings</p>
+                <p>This page is perhaps the most important piece of setting up your Azure Migrate Assessment.&nbsp; Adjust the parameters to your liking then select the Save button on the bottom of the page.</p>
+                <p>A detailed explanation for each setting will be available soon.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/028.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Next: Select Servers to Assess</p>
+                <p>Select the button that reads Next: Select Servers to Assess on the bottom of the page.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/029.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Select Servers to Assess</p>
+                <p>Here you can name your assessment.</p>
+                <p>You can create a logical grouping of discovered servers.&nbsp; Simply select Create New and give the Group a name.&nbsp; This can be useful in situations where you can create smaller batches of of servers in large environments.&nbsp; This allows you to pick and choose which servers to assess.</p>
+                <p>After you've selected your servers to add to the group, select Next: Review + Create Assessment</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/030.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Create Assessment</p>
+                <p>Verify the Assessment settings look to be correct then select Create Assessment on the bottom of the screen.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/031.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Validating...</p>
+                <p>The Azure Portal will present a loading screen.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/032.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Overview</p>
+                <p>When the creation of the Assessment has been completed, you'll be taken back to the Servers, Databases, and Web Apps page.&nbsp; Select the Overview button on the top-right of the Assessment Tools panel.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/033.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Azure Migrate: Discovery and Assessment</p>
+                <p>From this page, select the Assessments option on the blade menu.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/034.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">Assessments</p>
+                <p>The newly-created Assessment should be listed.&nbsp; Select it.</p>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 11px;">
+            <div class="col-md-6"><img class="img-fluid border rounded-0 border-4 border-black" src="assets/img/035.png"></div>
+            <div class="col-md-6">
+                <p class="fw-semibold">The Assessment</p>
+                <p>Assessment details will be available in the Azure Portal.&nbsp; You may export the Azure Migrate Assessment into Excel by selecting Export Assessment.</p>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
