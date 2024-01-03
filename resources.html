@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>migrate</title>
+    <script>
+        (function() {
+
+            // JavaScript snippet handling Dark/Light mode switching
+
+            const getStoredTheme = () => localStorage.getItem('theme');
+            const setStoredTheme = theme => localStorage.setItem('theme', theme);
+            const forcedTheme = document.documentElement.getAttribute('data-bss-forced-theme');
+
+            const getPreferredTheme = () => {
+
+                if (forcedTheme) return forcedTheme;
+
+                const storedTheme = getStoredTheme();
+                if (storedTheme) {
+                    return storedTheme;
+                }
+
+                const pageTheme = document.documentElement.getAttribute('data-bs-theme');
+
+                if (pageTheme) {
+                    return pageTheme;
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            const setTheme = theme => {
+                if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-bs-theme', theme);
+                }
+            }
+
+            setTheme(getPreferredTheme());
+
+            const showActiveTheme = (theme, focus = false) => {
+                const themeSwitchers = [].slice.call(document.querySelectorAll('.theme-switcher'));
+
+                if (!themeSwitchers.length) return;
+
+                document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                    element.classList.remove('active');
+                    element.setAttribute('aria-pressed', 'false');
+                });
+
+                for (const themeSwitcher of themeSwitchers) {
+
+                    const btnToActivate = themeSwitcher.querySelector('[data-bs-theme-value="' + theme + '"]');
+
+                    if (btnToActivate) {
+                        btnToActivate.classList.add('active');
+                        btnToActivate.setAttribute('aria-pressed', 'true');
+                    }
+                }
+            }
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                const storedTheme = getStoredTheme();
+                if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme());
+                }
+            });
+
+            window.addEventListener('DOMContentLoaded', () => {
+                showActiveTheme(getPreferredTheme());
+
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const theme = toggle.getAttribute('data-bs-theme-value');
+                            setStoredTheme(theme);
+                            setTheme(theme);
+                            showActiveTheme(theme);
+                        })
+                    })
+            });
+        })();
+    </script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid" style="max-width: 720px;">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="fw-semibold" style="margin-top: 9px;margin-bottom: -20px;">Resources</p>
+            </div>
+            <div class="col-md-6">
+                <div class="theme-switcher dropdown" style="text-align: right;"><button class="btn btn-link dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="color: var(--bs-body-color);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-sun-fill mb-1">
+                            <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+                        </svg></button>
+                    <div class="dropdown-menu"><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="light"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-sun-fill opacity-50 me-2">
+                                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+                            </svg>Light</a><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="dark"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-moon-stars-fill opacity-50 me-2">
+                                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+                                <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+                            </svg>Dark</a><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="auto"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-circle-half opacity-50 me-2">
+                                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+                            </svg>Auto</a></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Action Groups</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Insights/actiongroups</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Insights/scheduledqueryrules</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource type will move.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Action Rules</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.AlertsManagement/actionRules</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">No furthers notes are available for this resource type.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Activity Log Alerts</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">The Activity Log Alerts resource cannot be moved.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Insights/activitylogalerts</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Activity Log Alerts may be exported as an ARM templated and deployed in a new subscription.&nbsp; Instructions for exporting an ARM template can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Application Groups</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This Resource Type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.DesktopVirtualization/applicationgroups</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">All three Resource yypes under the Microsoft.DesktopVirtualization type are capable of moving according to the Microsoft Support Documentation.&nbsp; The other two resource types under this classification are Hostpools and Workspaces.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">App Service (Slot)</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This is a child resource and will move with the parent resource.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/Sites/Slots</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This is a secondary (Child) Resource which will automatically move with the respective primary (Parent) Resource.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Assessment Projects</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource types falls under Azure Migrate and will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Migrate/assessmentProjects</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Resources associated with Azure Migrate Projects cannot be moved.&nbsp; They are ephemeral resources often deleted after a migration is performed.&nbsp; These resources may be deleted once a migration is completed and fully tested.&nbsp; An Azure Migrate Assessment may be exported into Excel.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Automation Accounts</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource can move. See also: Log Analytics Workspaces.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Automation/automationaccounts</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Automation/configurations</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Automation/runbooks</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Unlink the Automation Account from the Log Analytics Workspace before moving to a new subscription.&nbsp; Detailed instructions for unlinking resources from a Log Analytics Workspace can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Availability Sets</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This Resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/availabilitysets</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Related to Virtual Machines which also fall under the Microsoft.Computer Resource Provider, this resource type will move.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Azure AD Domain Services</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Azure Active Directory (Entra) Domain Services will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.AAD/domainservices</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Azure Active Directory Domain Services will need to be deleted and rebuilt in the new subscription.&nbsp; Instructions to create Active Directory Domain Services may be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Backup Jobs</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Resource Groups may contain resources that are part of an Azure Backup Job which exist inside a Recovery Services Vault.&nbsp; Backup Jobs are not a resource but rather a process which must be disabled.</p>
+                <div></div><small style="margin-top: 0px;">No associated Resource Provider</small>
+                <div></div><small>Resource Group Movable: NA</small>
+                <div></div><small>Subscription Movable: NA</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Disable Backups from the Recovery Services Vault.&nbsp; Disable the Soft Delete setting then delete all Restore Point Collections.&nbsp; Instructions for disabling Azure Backup can be found&nbsp;<a href="#">here.</a></p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 0px;">Instructions to disable Soft Delete can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Child Resources</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Secondary (Child) Resources will move automatically with their Primary (Parent) Resources.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.ResourceProvider/PrimaryExample/SecondaryExample</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Examples include Microsoft.Compute/VirtualMachines/Extensions and Microsoft.Compute/Sqlservers/databases.&nbsp; Notice the forward slash appears twice in the naming convention.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Certificates</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This Resource can move across subscriptions only.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.web/certificates</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This Resource type will move to a new Subscription but will not move into a new Resource Group within the same Subscription.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Components</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Component Resources can move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.insights/components</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This Resource type is listed as Application Insights.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Connections</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This Resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/connections</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/connections</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">API connections are used to connect Logic Apps to SaaS services such as Office 365.&nbsp; An API connection resource is associated to a Local Network Gateway resource.&nbsp; &nbsp;This resource can move without it's Local Network Gateway resource dependency.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Dashboards</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Portal.dashboards</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource is also known as Shared Dashboards.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Domain Registrations</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.DomainRegistrations/domains</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move.&nbsp; However, it's fellow commonly associated resource types; Generatesorequest, topleveldomains, and validatedomainregistrationinformation will not move.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Disk</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/disks</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Verify the encryption method.&nbsp; Check to see if the disk is being backed up to a Recovery Services Vault.&nbsp; If so, see the listing for Restore Point Collections.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Disk Restore Points</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Disk resources will move if unattached to a Virtual Machine.&nbsp; They will need to move with their respective Virtual Machine if attached.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/disks</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">If a Disk contains Restore Points, backups will need to be disabled from the Recovery Services Vault.&nbsp; First disabled Soft Delete then proceed to delete all Restore Point Collection resources.&nbsp; Instructions to disabled Azure Backup my be found&nbsp;<a href="#">here.</a></p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 0px;">Instructions to disable Soft Delete can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">DNS Zones</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/dnszones</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Microsoft Support Documentation for DNS Zones can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Dynamic Public IP Address - Basic SKU</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/publicipaddresses</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Basic SKU IP Addresses will move.&nbsp; It is recommended they be changed from dynamic to static before moving as this will prevent the IP Address from changing during the move.&nbsp; Instructions to modify Public IP Address settings can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Network Dependencies</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Resources with dependencies inside other Resource Groups will not move across subscriptions.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Merge all resources into the same Resource Group with their dependencies before moving into a new Subscription.&nbsp; Detailed instructions for moving resources can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Factories</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.DataFactory/factories</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Data Factory (V2) allows visual construction of data pipelines.&nbsp; Microsoft Support Documentation can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Function Apps</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/sites</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The secondary (Child) resources; Microsoft.Web/sites/premieraddons and Microsoft.Web/sites/slots will move automatically with their primary (Parent) resource.&nbsp; However, the Secondary Resource Microsoft.Web/sites/eventgridfilters will not move.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Galleries</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Gallery resources will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Computer/galleries</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Computer/galleries/images</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Computer/galleries/images/versions</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Galleries are comprised of three resource types: Galleries, Images, and Versions.&nbsp; Gallery Images and Versions must be moved manually using Azure CLI or PowerShell commands.&nbsp; Build a new gallery in the new subscription.&nbsp; Move the respective images and versions manually.&nbsp; CLI Instructions to move images and gallery versions can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Host Pools</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.DesktopVirtualization/hostpools</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">All three resources under the Microsoft.DesktopVirtualization Resource Provider type can be moved according to the Microsoft Support Documentation.&nbsp; This includes hostpools and workspaces.&nbsp; From the Azure Portal, you can select the Host Pool resource and it will list the Windows Virtual Desktop Virtual Machines.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Images</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/images</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Not to be confused with Gallery Images, the image resource can move directly into a new subscription and has no dependencies.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Key Vaults</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.KeyVaults/vaults</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Please verify that any existing access policies associated with the Key Vault resource have been removed and that the vault is not being used for Disk Encryption. Key Vaults used for Disk Encryption cannot be moved. Support documentation for disabling Disk Encryption can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Logic App</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Logic/workflows</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Also referred to as Workflows.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Managed Applications</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Solutions/applications</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Another term for this type of resource is Marketplace Offering.&nbsp; Marketplace Applications will not move and will need to be rebuilt in the new subscription. Consult the vendor for help with billing and transfer.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Marketplace Offering</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/virtualmachine</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Such as this example, Marketplace Resources can have IaaS dependencies such as a virtual machine that may require reconfiguration after moving or rebuilding.&nbsp; According to the Microsoft Support documentation, Virtual Machines created from Marketplace resources with plans attached cannot be moved across Subscriptions.&nbsp; IaaS dependencies will need to be either moved or rebuilt.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Migrate Projects</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.migrate/assessmentprojects</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.migrate/migrateprojects</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.migrate/movecollections</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">All resources associated with the Microsoft.Migrate Resource Provider will not move.&nbsp; Azure Migrate is an ephemeral process.&nbsp; Once an on-prem to Azure migration has been completed and thoroughly tested, the corresponding resources may be deleted.&nbsp; An Azure Migrate Assessment can be exported into Excel.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Network Interfaces</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/networkInterfaces</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Find out which resource the Network Interface and Virtual Network the Network Interface is associated with.&nbsp; If these resources are in different Resource Groups, these dependencies must all be merged into the same Resource Group before they can be moved into a new subscription.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Network Security Group</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource can be moved.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/networksecuritygroups</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Disassociate Network Interface resources from the Network Security Group before moving.&nbsp; Disable NSG Flow Logs if this feature is enabled. (It is not enabled by default).&nbsp; &nbsp;Instructions for disassociating Network Interfaces from Network Security Groups can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Network Watcher</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/networkwatchers</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Network Watcher resources are built automatically by their respective Virtual Networks and are fully managed by Azure.&nbsp; They cannot be moved. Delete the Resource Group.&nbsp; The Network Watcher resource will be rebuilt automatically in the new Subscription.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Metric Alerts</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Insights/metricAlerts</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Metric Alerts will not move and will need to be rebuilt in the new Subscription.&nbsp; They can be exported as an ARM template.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Nerdio (IaaS Resources)</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">IaaS Resources associated to the Nerdio Marketplace Offering will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Solutions/applications</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Virtual Machines associated to a Marketplace Offering will need to be moved or rebuilt.&nbsp; Consult the vendor for help with transfer and billing.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Log Analytics Workspace</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.OperationalInsights/workspaces</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">A Log Analytics Workspace will first need to be unlinked from an Automation Account before being moved.&nbsp; Resources will need to be unlinked from a Log Analytics Workspace before moving.&nbsp; They can be linked again after moving.&nbsp; Detailed instructions for unlinking resources from a Log Analytics Workspace can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Palo Alto Environment</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This is a Marketplace Offering and will not move.</p>
+                <div></div><small style="margin-top: 0px;">Resource Provider Unavailable</small>
+                <div></div><small>Resource Group Movable: NA</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">IaaS Resources associated to the Marketplace Offering can be moved for rebuilt.&nbsp; It is recommended they be redeployed with the Marketplace Offering in the new subscription.&nbsp; Consult the vendor.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Application Gateway</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/applicationgateway</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Azure Application Gateways are a web traffic load balancer that enable traffic management to web applications.&nbsp; These resources cannot be moved and must be rebuilt in the new subscription.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Private Endpoints</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/privateendpoints</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Private Endpoint connections must be deleted from Storage Accounts before the Storage Account can be moved to a new subscription.&nbsp; Private Endpoints cannot be moved and must be rebuilt in the new Subscription.&nbsp;Verify no connections exist between a storage account and a private endpoint.&nbsp; Instructions to delete Private Endpoints may be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Public SSH Keys</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/sshpublickeys</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">SSH Public Keys will need to be reestablished in the new subscription.&nbsp; Support Documentation for SSH Public Key resources can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Recovery Services Vault</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move with conditions.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Recovery/vaults</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Disable backups from the Recovery Services Vault before moving.&nbsp; Disable the Soft Delete setting then delete all Restore Point Collections.&nbsp; Only one Recovery Services Vault per region may be moved at a time.&nbsp; Moving Recovery Services Vaults for Azure Backup across Azure Regions is not supported.&nbsp; For Azure Site Recovery, disable and rebuilt in the new target region. Instructions for disabling Soft Delete can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Resource Providers</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Resource Providers are services.</p>
+                <div></div><small style="margin-top: 0px;">Example Name: Microsoft.ResourceProvider</small>
+                <div></div><small>Resource Group Movable: NA</small>
+                <div></div><small>Subscription Movable: NA</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Every resource type in Azure requires a specific Resource Provider.&nbsp; Ensure the corresponding Resource Providers are registered in the new Subscription before moving.&nbsp; For example, a Virtual Machine resource will require the Microsoft.Compute Resource Provider be registered in the target Subscription before it can be moved.&nbsp; This Resource Provider is registered by default.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Restore Point Collections</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/restorepointcollections</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">Restore Point Collections are hidden resources that cannot be moved.&nbsp; Disable Backups from the Recovery Services Vault.&nbsp; Disable the Soft Delete setting in the Recovery Services Vault then delete all Restore Point Collections.&nbsp; Instructions for disabling Backup can be found&nbsp;<a href="#">here.</a></p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Instructions for disabling Soft Delete can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Route Tables</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/routetables</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move.&nbsp; Microsoft Support documentation for Route Tables is available&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Runbooks</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Automation/runbooks</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Runbooks will move with their corresponding Automation Account.&nbsp; Runbooks must exist in the same Resource Group as their Automation Account.&nbsp; Move them together. It may not be necessary to move Runbooks as they can be redeployed automatically by the Solution Resource that created them.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Scheduled Query Rules</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.insights/scheduledqueryrules</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.insights/actiongroups</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Runbooks and Scheduled Query Rules may be moved with the Automation Account.&nbsp; However, this may not be necessary as they may be redeployed automatically by the Solution Resource.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Server Farms</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/serverfarms</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move.&nbsp; Secondary (Child) resources eventgridfilters will not move.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Service Bus Namespaces</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.ServiceBus/namespaces</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">A namespace is a scoping container for all messaging components.&nbsp; Multiple queues and topics can reside within a single namespace.&nbsp; Namespaces often serve as application containers.&nbsp; Microsoft Support documentation for this resource can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Shared Dashboards</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Portal/dashboards</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Also known as Dashboards.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Sites</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/sites</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/sites/premieraddons</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Web/sites/slots</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move and it's corresponding secondary (child) resources will automatically move with it.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Smart Detector Alert Rules</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.AlertsManagement/smartdetectoralertrules</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move.&nbsp; No further notes are available.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Snapshots</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Compute/snapshots</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move.&nbsp; No further notes are available.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">SQL Database</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Sql/servers/databases</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This is a Secondary (Child) Resource and will move with the Primary (Parent) Resource.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">SQL Server</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.AnalysisServices/servers</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Sql/servers</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.Sql/servers/databases</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The only SQL-related Resources which will not move are instancepools and managedinstances</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">SQL Virtual Machines</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.SqlVirtualMachine/sqlvirtualmachinegroups</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.SqlVirtualMachine/sqlvirtualmachines</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The only SQL-related Resources which will not move are instancepools and manageinstances</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Static Public IP Address (Standard SKU)</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move across Subscriptions</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/publicipaddresses</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Standard SKU Public IP Addresses cannot be moved across Subscriptions and must be rebuilt.&nbsp; Using an ARM template, you may be able to preserve the IP Address when moving into a new subscription.&nbsp; Instructions for exporting an ARM template can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Standard SKU Load Balancer</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move across Subscriptions.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/loadbalancers</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">A Standard SKU Load Balancer must be rebuilt by exporting the Resource as an ARM Template.&nbsp; Instructions for exporting a Load Balancer ARM template can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Storage Accounts</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Storage/storageAccounts</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">Storage Accounts will move if they are not associated to a specific network.&nbsp; Steps to verify networking settings on a Storage Account can be found&nbsp;<a href="#">here.</a></p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">When using Azure PowerShell/CLI for the first time, Azure automatically generates a Storage Account.&nbsp; You may not wish to move this Storage Account as a new one will be created in the new Subscription when using Azure PowerShell/CLI.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Static Public IP Address (Basic SKU)</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/publicipaddresses</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This resource will move.&nbsp; Standard SKU IP Addresses cannot be moved and would require being exported using an ARM Template.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Virtual Network Gateways</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource type will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/virtualnetworkgateways</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Public IP Addresses associated to the Virtual Network Gateway cannot be reconfigured as Static.&nbsp; As a result, the IP Address may change during the move.&nbsp; After moving, confirm the IP Address resource has not changed.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Visual Studio</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.KeyVault/vaults</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Visual Studio accounts cannot be moved.&nbsp; Billing may need to be changed to reflect the new subscription.&nbsp; Detailed instructions to change a subscription for Visual Studio may be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">VMware Sites</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">These resources will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.OffAzure/hypervsites</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.OffAzure/importsites</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.OffAzure/serversites</small>
+                <div></div><small style="margin-top: 0px;">Microsoft.OffAzure/vmwaresites</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">All resources associated to the Microsoft.OffAzure Resource Provider cannot move.&nbsp; Rebuild in the new Subscription as needed.&nbsp; Support Documentation for deploying VMware in Azure can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Virtual Network Dependencies</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">These resources will move with conditions.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Network/networkinterfaces</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes:</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Virtual Network dependencies will need to first be merged into a single Resource Group before moving to a new Subscription.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">VNET Peering</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">VNET Peering is a service.</p>
+                <div></div><small style="margin-top: 0px;">Resource Provider: Microsoft.Network</small>
+                <div></div><small>Resource Group Movable: NA</small>
+                <div></div><small>Subscription Movable: NA</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Virtual Network Peering must first be disabled between Virtual Networks before the Virtual Networks can be moved to a new Subscription.&nbsp; VNET Peering can be reestablished after moving.&nbsp; Detailed instructions to disable VNET Peering may be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">AKS Clusters</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will not move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.ContainerService/managedclusters</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">AKS Clusters and their associated resources cannot be moved across Subscriptions.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Workflows</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Logic/workflows</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Also known as a Logic App.&nbsp; This Resource can be moved.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Workspace</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource will move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.DesktopVirtualization/workspaces</small>
+                <div></div><small>Resource Group Movable: Yes</small>
+                <div></div><small>Subscription Movable: Yes</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Not to be confused with a Log Analytics Workspace.&nbsp; This resource is part of the Windows Virtual Desktop environment which allows customization of which applications are available to users.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Backup Vaults</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource cannot move.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Dataprotection/BackupVaults</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">Check to see if the client is using Platform-Managed encryption keys or if they ar emanaging their own encryption keys using a Key Vault.&nbsp; You cannot delete a vault that contains protected data sources nor can you delete a vault that contains backup data.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Delete all Backup Instances and Backup Policies present in the Vault prior to deletion.&nbsp; Rebuild as needed in the new subscription.&nbsp; Steps required to build and delete an Azure Backup Vault can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Data Collection Rules</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">This resource cannot be moved.</p>
+                <div></div><small style="margin-top: 0px;">Microsoft.Insights/datacollectionrules</small>
+                <div></div><small>Resource Group Movable: No</small>
+                <div></div><small>Subscription Movable: No</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Data Collection Rules are profiles used to send log data from Virtual Machines.&nbsp; Logging from Virtual Machines will need to be reestablished in the new Subscription.&nbsp; &nbsp;An overview of Data Collection Rules can be found&nbsp;<a href="#">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <p style="text-align: center;margin-bottom: 36px;height: 1px;">Document prepared by Richard Hartman</p>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
