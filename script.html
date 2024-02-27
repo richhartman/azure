@@ -112,11 +112,11 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">What is the Azure Discovery Script?</p>
                 <div></div>
-                <p style="margin-bottom: 16px;">The Azure Discovery Script is a PowerShell script that runs locally on your computer that can login to the Azure Tenant and list all Resources and Resource Groups within a Subscription.&nbsp; The Script generates a JSON file which can then be sent back to your Solutions Architect.</p>
+                <p style="margin-bottom: 16px;">The Azure Discovery Script is a Read-Only PowerShell script that runs locally on your computer. It will login to the Azure Tenant using your Azure credentials to gather necessary information about Resources and Resources Groups within the specified Subscription. The Script generates a JSON file which can then be sent back to your Solutions Architect.</p>
                 <div></div>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The script makes no changes to the Azure environment and only requires Reader access on the Subscription.</p>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 0px;">Note:&nbsp; Always launch PowerShell ISE as Administrator.</p>
@@ -125,7 +125,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Download the Azure Discovery Scripts</p>
                 <div></div>
@@ -137,7 +137,7 @@
                 <div></div><small>AzureDiscoveryScript_CS</small><small></small>
                 <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If MFA is not enabled, use the script titled AzureDiscoveryScript.&nbsp; Otherwise use AzureDiscoveryScript_MFA.</p>
                 <div></div>
-                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If using Cisco DUO Mobile for MFA, use AzureDiscoveryScript_MFA.&nbsp; For all other third-party MFA environments, use the script titled AzureDiscoveryScript_CS.</p>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If using Cisco DUO Mobile for MFA, use AzureDiscoveryScript_MFA.&nbsp; For all other third-party MFA environments, use the script titled AzureDiscoveryScript_CS in Cloud Shell.</p>
                 <div></div>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The Azure Discovery Scripts should be run locally on your computer.&nbsp; It will then request you to login to the Azure Tenant and select the corresponding Subscription.</p>
                 <div></div>
@@ -145,11 +145,11 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Delegate to Solutions Architect</p>
                 <div></div>
-                <p style="margin-bottom: 16px;">If you would like the Solutions Architect to run the Azure Disovery Scripts on your behalf, you can create a new user account in Azure Entra ID and assign Reader RBAC on the Subscription.&nbsp; Another option is to use send a Guest User Invite to the Solutions Architect.</p>
+                <p style="margin-bottom: 16px;">If you would like the Solutions Architect to run the Azure Disovery Scripts on your behalf, you can send a Guest User Invite to the Solutions Architect and assign Reader RBAC on the Subscription.&nbsp; Another option is to use send a Guest User Invite to the Solutions Architect.</p>
                 <div></div>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Please send the Tenant ID and Subscription ID for the Pay as You Go Subscription to the Solutions Architect.&nbsp; For security reasons, please delete the Solution Architect from Azure Entra ID after this process is completed.</p>
                 <div></div>
@@ -157,7 +157,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Prerequisites - Azure Module</p>
                 <div></div>
@@ -171,7 +171,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Prerequisite - Insert the Tenant ID on Line 164</p>
                 <div></div>
@@ -186,7 +186,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - We can't sign you in</p>
                 <div></div>
@@ -200,7 +200,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Blank JSON File</p>
                 <div></div>
@@ -214,7 +214,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Execution-Policy</p>
                 <div></div>
@@ -228,7 +228,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Temp Folder doesn't exist</p>
                 <div></div>
@@ -240,7 +240,7 @@
         </div>
         <hr>
         <div class="row row-cols-1" style="margin-bottom: 34px;">
-            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col" style="width: 80px;"><img src="assets/img/PowerShell.png" style="width: auto;max-width: 60px;"></div>
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Additional Notes</p>
                 <div></div>
