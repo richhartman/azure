@@ -119,7 +119,7 @@
                 <p style="margin-bottom: 16px;">The Azure Discovery Script is a Read-Only PowerShell script that runs locally on your computer. It will login to the Azure Tenant using your Azure credentials to gather necessary information about Resources and Resources Groups within the specified Subscription. The Script generates a JSON file which can then be sent back to your Solutions Architect.</p>
                 <div></div>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The script makes no changes to the Azure environment and only requires Reader access on the Subscription.</p>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 0px;">Note:&nbsp; Always launch PowerShell ISE as Administrator.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 0px;padding-bottom: 21px;">Note:&nbsp; Always launch PowerShell ISE as Administrator.</p>
                 <div></div>
             </div>
         </div>
@@ -130,16 +130,19 @@
                 <p class="fw-semibold" style="margin-bottom: 0px;">Download the Azure Discovery Scripts</p>
                 <div></div>
                 <p style="margin-bottom: 16px;">The Azure Discovery Scripts should be sent in a ZIP File through email.&nbsp; If Outlook is preventing the files from sending, please ask the Solutions Architect for the Link to download the scripts directly.</p>
-                <div></div><small style="margin-top: 0px;">Scripts</small>
-                <div></div><small>AzureDiscoveryScript</small>
+                <div style="padding-top: 13px;"></div><small style="margin-top: 0px;margin-left: 8px;font-weight: bold;">Scripts</small>
+                <div></div><small class="fw-semibold" style="margin-left: 8px;">AzureSubDiscovery</small>
+                <div style="padding-bottom: 5px;"></div><small style="margin-left: 34px;">Use when no MFA is established</small>
                 <div></div>
-                <div></div><small>AzureDiscoveryScript_MFA</small>
-                <div></div><small>AzureDiscoveryScript_CS</small><small></small>
-                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If MFA is not enabled, use the script titled AzureDiscoveryScript.&nbsp; Otherwise use AzureDiscoveryScript_MFA.</p>
+                <div></div><small class="fw-semibold" style="margin-left: 8px;">AzureDiscoveryScript_MFA</small>
+                <div style="padding-bottom: 5px;"></div><small style="margin-left: 34px;">Use for environments using Microsoft Authenticator</small>
+                <div></div><small class="fw-semibold" style="margin-left: 8px;">AzureDiscoveryScript_CS</small>
+                <div></div><small style="margin-left: 34px;padding-bottom: 5px;">Run in Cloud Shell for environments using third-party MFA</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;margin-top: 21px;">If MFA is not enabled, use the script titled AzureDiscoveryScript.&nbsp; Otherwise use AzureDiscoveryScript_MFA.</p>
                 <div></div>
                 <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If using Cisco DUO Mobile for MFA, use AzureDiscoveryScript_MFA.&nbsp; For all other third-party MFA environments, use the script titled AzureDiscoveryScript_CS in Cloud Shell.</p>
                 <div></div>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The Azure Discovery Scripts should be run locally on your computer.&nbsp; It will then request you to login to the Azure Tenant and select the corresponding Subscription.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;padding-bottom: 21px;">The Azure Discovery Scripts should be run locally on your computer.&nbsp; It will then request you to login to the Azure Tenant and select the corresponding Subscription.</p>
                 <div></div>
             </div>
         </div>
@@ -151,7 +154,7 @@
                 <div></div>
                 <p style="margin-bottom: 16px;">If you would like the Solutions Architect to run the Azure Disovery Scripts on your behalf, you can send a Guest User Invite to the Solutions Architect and assign Reader RBAC on the Subscription.</p>
                 <div></div>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Please send the Tenant ID and Subscription ID for the Pay as You Go Subscription to the Solutions Architect.&nbsp; For security reasons, please delete the Solution Architect from Azure Entra ID after this process is completed.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;padding-bottom: 21px;">Please send the Tenant ID and Subscription ID for the Pay as You Go Subscription to the Solutions Architect.&nbsp; For security reasons, please delete the Solution Architect from Azure Entra ID after this process is completed.</p>
                 <div></div>
             </div>
         </div>
@@ -162,10 +165,12 @@
                 <p class="fw-semibold" style="margin-bottom: 0px;">Prerequisites - Azure Module</p>
                 <div></div>
                 <p style="margin-bottom: 16px;">The Discovery Script will not run if the Azure Module is not installed in PowerShell.</p>
-                <div></div><small style="margin-top: 0px;">Run the following Commands:</small>
+                <div style="padding-top: 21px;"></div><small style="margin-top: 0px;">Run the following Commands:</small>
                 <div></div><small>Install-Module -Name PowerShellGet -Force</small>
                 <div></div><small></small>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">PowerShell should automatically download the Azure Modules.&nbsp; If not, use the command listed above.&nbsp; This process will take several minutes.</p><img class="rounded img-fluid border border-1 border-black" src="assets/img/az_module.png" style="max-width: 350px;">
+                <div></div><img class="rounded img-fluid border border-1 border-black" src="assets/img/az_module.png" style="max-width: 350px;">
+                <div style="padding-top: 13px;padding-bottom: 21px;"></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">PowerShell should automatically download the Azure Modules.&nbsp; If not, use the command listed above.&nbsp; This process will take several minutes.</p>
                 <div></div>
             </div>
         </div>
@@ -175,12 +180,13 @@
             <div class="col-md-6" style="width: 640px;">
                 <p class="fw-semibold" style="margin-bottom: 0px;">Prerequisite - Insert the Tenant ID on Line 164</p>
                 <div></div>
-                <p style="margin-bottom: 16px;">For the Discovery Script to login to the correct tenant, add the Tenant ID to Line 164.&nbsp; The Tenant ID can be found in the Azure Portal by navigating to the Entra ID page.&nbsp; This should only apply to the MFA version of the script.</p><img class="rounded img-fluid border border-1 border-black" src="assets/img/tenant_id1.png" style="max-width: 350px;">
+                <p style="margin-bottom: 16px;">For the Discovery Script to login to the correct tenant, add the Tenant ID to Line 164.&nbsp; The Tenant ID can be found in the Azure Portal by navigating to the Entra ID page.&nbsp; This should only apply to the MFA version of the script.</p>
+                <div style="padding-top: 21px;"></div><img class="rounded img-fluid border border-1 border-black" src="assets/img/tenant_id1.png" style="max-width: 350px;">
                 <div></div>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Paste the Tenant ID where it reads [Tenant ID].</p>
                 <div></div><img class="rounded img-fluid border border-1 border-black" src="assets/img/tenant_id.png" style="max-width: 380px;">
                 <div></div><small></small>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Note:&nbsp; Remove the Brackets.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;padding-bottom: 21px;">Note:&nbsp; Remove the Brackets.</p>
                 <div></div>
             </div>
         </div>
@@ -191,10 +197,10 @@
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - We can't sign you in</p>
                 <div></div>
                 <p style="margin-bottom: 16px;">Error message:&nbsp; "JavaScript is required to sign in.&nbsp; Your browser either does not support JavaScript or it is being blocked.&nbsp; Enable JavaScript in your browser or use on which supports it."</p>
-                <div></div><img class="border rounded border-1 border-black" src="assets/img/cant_sign_in.png" style="max-width: 240px;">
+                <div style="padding-top: 21px;"></div><img class="border rounded border-1 border-black" src="assets/img/cant_sign_in.png" style="max-width: 240px;">
                 <div></div>
                 <div></div><small></small>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">We've mitigated this error by installing the Microsoft Edge Browser.&nbsp; This error can often occur if the Microsoft Edge Browser has never be launched before.&nbsp; Launch the Edge Browser then run the script again.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;padding-bottom: 21px;">We've mitigated this error by installing the Microsoft Edge Browser.&nbsp; This error can often occur if the Microsoft Edge Browser has never be launched before.&nbsp; Launch the Edge Browser then run the script again.</p>
                 <div></div>
             </div>
         </div>
@@ -205,10 +211,10 @@
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Blank JSON File</p>
                 <div></div>
                 <p style="margin-bottom: 16px;">Sometimes the script will finish but the resulting JSON file is empty.</p>
-                <div></div><img class="border rounded border-1 border-black" src="assets/img/blank_json.png" style="max-width: 320px;">
+                <div style="padding-top: 21px;"></div><img class="border rounded border-1 border-black" src="assets/img/blank_json.png" style="max-width: 320px;">
                 <div></div>
                 <div></div><small></small>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">We have resolved this issue by running the script again.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;padding-bottom: 21px;">We have resolved this issue by running the script again.</p>
                 <div></div>
             </div>
         </div>
@@ -219,10 +225,10 @@
                 <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Execution-Policy</p>
                 <div></div>
                 <p style="margin-bottom: 16px;">Error Message: AzureDiscoveryScript.ps1 is not digitally signed.&nbsp; You cannot run this script on the current system.</p>
-                <div></div><img class="img-fluid border rounded border-1 border-black" src="assets/img/execution_policy.png" style="max-width: 540px;">
+                <div style="padding-top: 21px;"></div><img class="img-fluid border rounded border-1 border-black" src="assets/img/execution_policy.png" style="max-width: 540px;">
                 <div></div><small>Command:</small>
-                <div></div><small>Set-ExecutionPolicy Unrestricted</small><small></small>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This is a security feature built into PowerShell.&nbsp; To workaround this, enter the command listed above.&nbsp; Remember to run PowerShell ISE as Administrator.</p>
+                <div style="padding-top: 8px;"></div><small>Set-ExecutionPolicy Unrestricted</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;padding-bottom: 21px;">This is a security feature built into PowerShell.&nbsp; To workaround this, enter the command listed above.&nbsp; Remember to run PowerShell ISE as Administrator.</p>
                 <div></div>
             </div>
         </div>
@@ -234,7 +240,7 @@
                 <div></div>
                 <p style="margin-bottom: 16px;">The script will fail near completion if a Temp Folder is not already created.</p>
                 <div></div>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 5px;">This error can be resolved by created the folder:&nbsp; C:/Temp</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 5px;padding-bottom: 21px;">This error can be resolved by created the folder:&nbsp; C:/Temp</p>
                 <div></div>
             </div>
         </div>
@@ -249,7 +255,7 @@
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">Security features on a work computer may prevent PowerShell from working correctly.&nbsp; We often mitigate this issue by using a Virtual Machine setup in our Azure Lab environment.&nbsp; Please reach out for assistance if you would like help running the script.</p>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">While Cisco DUO Mobile MFA is a third-party application, we have found it works with the AzureDiscoveryMFA script which is used for Microsoft first-party MFA.</p>
                 <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">If you would like to move the Azure resources yourself, a guide for moving the most common resources can be found&nbsp;<a href="resources.html">here.</a></p>
-                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">Microsoft Support Documentation for details on which resources are movable can be found&nbsp;<a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-support-resources">here.</a></p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;padding-bottom: 34px;">Microsoft Support Documentation for details on which resources are movable can be found&nbsp;<a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-support-resources">here.</a></p>
                 <div></div>
             </div>
         </div>
