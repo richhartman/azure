@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>migrate</title>
+    <script>
+        (function() {
+
+            // JavaScript snippet handling Dark/Light mode switching
+
+            const getStoredTheme = () => localStorage.getItem('theme');
+            const setStoredTheme = theme => localStorage.setItem('theme', theme);
+            const forcedTheme = document.documentElement.getAttribute('data-bss-forced-theme');
+
+            const getPreferredTheme = () => {
+
+                if (forcedTheme) return forcedTheme;
+
+                const storedTheme = getStoredTheme();
+                if (storedTheme) {
+                    return storedTheme;
+                }
+
+                const pageTheme = document.documentElement.getAttribute('data-bs-theme');
+
+                if (pageTheme) {
+                    return pageTheme;
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            const setTheme = theme => {
+                if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-bs-theme', theme);
+                }
+            }
+
+            setTheme(getPreferredTheme());
+
+            const showActiveTheme = (theme, focus = false) => {
+                const themeSwitchers = [].slice.call(document.querySelectorAll('.theme-switcher'));
+
+                if (!themeSwitchers.length) return;
+
+                document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                    element.classList.remove('active');
+                    element.setAttribute('aria-pressed', 'false');
+                });
+
+                for (const themeSwitcher of themeSwitchers) {
+
+                    const btnToActivate = themeSwitcher.querySelector('[data-bs-theme-value="' + theme + '"]');
+
+                    if (btnToActivate) {
+                        btnToActivate.classList.add('active');
+                        btnToActivate.setAttribute('aria-pressed', 'true');
+                    }
+                }
+            }
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                const storedTheme = getStoredTheme();
+                if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme());
+                }
+            });
+
+            window.addEventListener('DOMContentLoaded', () => {
+                showActiveTheme(getPreferredTheme());
+
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const theme = toggle.getAttribute('data-bs-theme-value');
+                            setStoredTheme(theme);
+                            setTheme(theme);
+                            showActiveTheme(theme);
+                        })
+                    })
+            });
+        })();
+    </script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid" style="max-width: 720px;">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="fw-semibold" style="margin-top: 9px;margin-bottom: -20px;">Troubleshooting</p>
+            </div>
+            <div class="col-md-6">
+                <div class="theme-switcher dropdown" style="text-align: right;"><button class="btn btn-link dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="color: var(--bs-body-color);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-sun-fill mb-1">
+                            <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+                        </svg></button>
+                    <div class="dropdown-menu"><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="light"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-sun-fill opacity-50 me-2">
+                                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+                            </svg>Light</a><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="dark"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-moon-stars-fill opacity-50 me-2">
+                                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278"></path>
+                                <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+                            </svg>Dark</a><a class="dropdown-item d-flex align-items-center" href="#" data-bs-theme-value="auto"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-circle-half opacity-50 me-2">
+                                <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"></path>
+                            </svg>Auto</a></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">What is the Azure Discovery Script?</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">The Azure Discovery Script is a PowerShell script that runs locally on your computer that can login to the Azure Tenant and list all Resources and Resource Groups within a Subscription.&nbsp; The Script generates a JSON file which can then be sent back to your Solutions Architect.</p>
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The script makes no changes to the Azure environment and only requires Reader access on the Subscription.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 0px;">Note:&nbsp; Always launch PowerShell ISE as Administrator.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Download the Azure Discovery Scripts</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">The Azure Discovery Scripts should be sent in a ZIP File through email.&nbsp; If Outlook is preventing the files from sending, please ask the Solutions Architect for the Link to download the scripts directly.</p>
+                <div></div><small style="margin-top: 0px;">Scripts</small>
+                <div></div><small>AzureDiscoveryScript</small>
+                <div></div>
+                <div></div><small>AzureDiscoveryScript_MFA</small>
+                <div></div><small>AzureDiscoveryScript_CS</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If MFA is not enabled, use the script titled AzureDiscoveryScript.&nbsp; Otherwise use AzureDiscoveryScript_MFA.</p>
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 0px;padding-top: 21px;">If using Cisco DUO Mobile for MFA, use AzureDiscoveryScript_MFA.&nbsp; For all other third-party MFA environments, use the script titled AzureDiscoveryScript_CS.</p>
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">The Azure Discovery Scripts should be run locally on your computer.&nbsp; It will then request you to login to the Azure Tenant and select the corresponding Subscription.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Delegate to Solutions Architect</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">If you would like the Solutions Architect to run the Azure Disovery Scripts on your behalf, you can create a new user account in Azure Entra ID and assign Reader RBAC on the Subscription.&nbsp; Another option is to use send a Guest User Invite to the Solutions Architect.</p>
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Please send the Tenant ID and Subscription ID for the Pay as You Go Subscription to the Solutions Architect.&nbsp; For security reasons, please delete the Solution Architect from Azure Entra ID after this process is completed.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Prerequisites - Azure Module</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">The Discovery Script will not run if the Azure Module is not installed in PowerShell.</p>
+                <div></div><small style="margin-top: 0px;">Run the following Commands:</small>
+                <div></div><small>Install-Module -Name PowerShellGet -Force</small>
+                <div></div><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">PowerShell should automatically download the Azure Modules.&nbsp; If not, use the command listed above.&nbsp; This process will take several minutes.</p><img class="rounded img-fluid border border-1 border-black" src="assets/img/az_module.png" style="max-width: 350px;">
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Prerequisite - Insert the Tenant ID on Line 164</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">For the Discovery Script to login to the correct tenant, add the Tenant ID to Line 164.&nbsp; The Tenant ID can be found in the Azure Portal by navigating to the Entra ID page.</p><img class="rounded img-fluid border border-1 border-black" src="assets/img/tenant_id1.png" style="max-width: 350px;">
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Paste the Tenant ID where it reads [Tenant ID].</p>
+                <div></div><img class="rounded img-fluid border border-1 border-black" src="assets/img/tenant_id.png" style="max-width: 380px;">
+                <div></div><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">Note:&nbsp; Remove the Brackets.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - We can't sign you in</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Error message:&nbsp; "JavaScript is required to sign in.&nbsp; Your browser either does not support JavaScript or it is being blocked.&nbsp; Enable JavaScript in your browser or use on which supports it."</p>
+                <div></div><img class="border rounded border-1 border-black" src="assets/img/cant_sign_in.png" style="max-width: 240px;">
+                <div></div>
+                <div></div><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">We've mitigated this error by installing the Microsoft Edge Browser.&nbsp; This error can often occur if the Microsoft Edge Browser has never be launched before.&nbsp; Launch the Edge Browser then run the script again.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Blank JSON File</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Sometimes the script will finish but the resulting JSON file is empty.</p>
+                <div></div><img class="border rounded border-1 border-black" src="assets/img/blank_json.png" style="max-width: 320px;">
+                <div></div>
+                <div></div><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">We have resolved this issue by running the script again.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Execution-Policy</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Error Message: AzureDiscoveryScript.ps1 is not digitally signed.&nbsp; You cannot run this script on the current system.</p>
+                <div></div><img class="img-fluid border rounded border-1 border-black" src="assets/img/execution_policy.png" style="max-width: 540px;">
+                <div></div><small>Command:</small>
+                <div></div><small>Set-ExecutionPolicy Unrestricted</small><small></small>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 21px;">This is a security feature built into PowerShell.&nbsp; To workaround this, enter the command listed above.&nbsp; Remember to run PowerShell ISE as Administrator.</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Troubleshooting - Temp Folder doesn't exist</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">The script will fail near completion if a Temp Folder is not already created.</p>
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 5px;">This error can be resolved by created the folder:&nbsp; C:/Temp</p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-cols-1" style="margin-bottom: 34px;">
+            <div class="col" style="width: 80px;"><img src="assets/img/icon.png" style="width: auto;max-width: 60px;"></div>
+            <div class="col-md-6" style="width: 640px;">
+                <p class="fw-semibold" style="margin-bottom: 0px;">Additional Notes</p>
+                <div></div>
+                <p style="margin-bottom: 16px;">Below we have listed any additional notes which may be helpful.</p>
+                <div></div>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">Security features on a work computer may prevent PowerShell from working correctly.&nbsp; We often mitigate this issue by using a Virtual Machine setup in our Azure Lab environment.&nbsp; Please reach out for assistance if you would like help running the script.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">While Cisco DUO Mobile MFA is a third-party application, we have found it works with the AzureDiscoveryMFA script which is used for Microsoft first-party MFA.</p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">If you would like to move the Azure resources yourself, a guide for moving the most common resources can be found&nbsp;<a href="resources.html">here.</a></p>
+                <p class="text-secondary" style="margin-bottom: 16px;padding-top: 8px;">Microsoft Support Documentation for details on which resources are movable can be found&nbsp;<a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-support-resources">here.</a></p>
+                <div></div>
+            </div>
+        </div>
+        <hr>
+        <p style="text-align: center;margin-bottom: 36px;height: 1px;">Document prepared by Richard Hartman | TD SYNNEX</p>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
